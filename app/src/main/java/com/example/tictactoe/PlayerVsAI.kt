@@ -3,6 +3,7 @@ package com.example.tictactoe
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,6 +20,7 @@ class PlayerVsAI : AppCompatActivity() {
     lateinit var b8:Button
     lateinit var b9:Button
     lateinit var reset:Button
+    var won=false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,29 +53,43 @@ class PlayerVsAI : AppCompatActivity() {
         intArrayOf(2, 2, 2),
         intArrayOf(2, 2, 2),
         intArrayOf(2, 2, 2)
-    )
+    );
+    var remains: IntArray = intArrayOf(2,2,2,2,2,2,2,2,2)
 
     fun onClk(view: View){
         ++move
         val button = view as Button
         var st = button.tag.toString()
-
-
-            button.text = str2
-            checkWin(st,1)
-
+        button.text = str2
+        checkWin(st,1)
         if(move == 9){
             playerWins.text="TIE!"
         }
         button.isClickable = false
 
-        runAiPlayer();
+        if(move<=8 && !won){
+            runAiPlayer();
+        }
 
 
     }
 
+
     private fun runAiPlayer(){
-        var rnds = (0..10).random();
+
+        var arraylist = ArrayList<Int>()
+        for(k in 0..8){
+            Log.i("REM",remains[k].toString());
+            if(remains[k] == 2){
+                arraylist.add(k+1)
+            }
+        }
+
+        Log.i("LIST",arraylist.toString())
+
+        var rnds = arraylist.random();
+        Log.i("RAND",rnds.toString())
+//        return;
 
         when(rnds){
             1-> {
@@ -181,15 +197,42 @@ class PlayerVsAI : AppCompatActivity() {
 
     private fun checkWin(st:String, i:Int){
         when (st) {
-            "00"-> first[0][0] = i
-            "01"-> first[0][1] = i
-            "02"-> first[0][2] = i
-            "10"-> first[1][0] = i
-            "11"-> first[1][1] = i
-            "12"-> first[1][2] = i
-            "20"-> first[2][0] = i
-            "21"-> first[2][1] = i
-            "22"-> first[2][2] = i
+            "00"-> {
+                first[0][0] = i
+                remains[0]=i;
+            }
+            "01"-> {
+                first[0][1] = i
+                remains[1]=i;
+            }
+            "02"-> {
+                first[0][2] = i
+                remains[2]=i;
+            }
+            "10"-> {
+                first[1][0] = i
+                remains[3]=i;
+            }
+            "11"-> {
+                first[1][1] = i
+                remains[4]=i;
+            }
+            "12"-> {
+                first[1][2] = i
+                remains[5]=i;
+            }
+            "20"-> {
+                first[2][0] = i
+                remains[6]=i;
+            }
+            "21"-> {
+                first[2][1] = i
+                remains[7]=i;
+            }
+            "22"-> {
+                remains[8]=i;
+                first[2][2] = i
+            }
 
         }
 
@@ -293,6 +336,8 @@ class PlayerVsAI : AppCompatActivity() {
             onWin(0)
         }
 
+
+
     }
     fun onWin(player:Int){
         if(player == 1){
@@ -311,6 +356,7 @@ class PlayerVsAI : AppCompatActivity() {
         b7.isClickable=false
         b8.isClickable=false
         b9.isClickable=false
+        won=true
     }
 
     fun reset(){
