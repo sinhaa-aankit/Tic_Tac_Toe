@@ -63,7 +63,10 @@ class PlayerVsAI : AppCompatActivity() {
         button.text = str2
         checkWin(st,1)
         if(move == 9){
-            playerWins.text="TIE!"
+            checkWin(st,1)
+            if(!won){
+                playerWins.text="TIE!"
+            }
         }
         button.isClickable = false
 
@@ -339,7 +342,7 @@ class PlayerVsAI : AppCompatActivity() {
 
 
     }
-    fun onWin(player:Int){
+    private fun onWin(player:Int){
         if(player == 1){
             playerWins.text = "Player $player Wins"
         }
@@ -359,8 +362,8 @@ class PlayerVsAI : AppCompatActivity() {
         won=true
     }
 
-    fun reset(){
-        val inent = intent
+    private fun reset(){
+        intent
         finish()
         startActivity(intent)
     }

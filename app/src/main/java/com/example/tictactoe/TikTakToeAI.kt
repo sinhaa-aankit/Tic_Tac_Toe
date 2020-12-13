@@ -1,4 +1,4 @@
 package com.example.tictactoe
 
-class TikTakToeAI {
+class TikTakToeAI() {
 }
