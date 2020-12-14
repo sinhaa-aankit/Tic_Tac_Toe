@@ -49,7 +49,7 @@ class PlayerVsAI : AppCompatActivity() {
     var str1 = "X"
     var str2 = "0"
 
-    private val first: Array<IntArray> = arrayOf(
+    var first: Array<IntArray> = arrayOf(
         intArrayOf(2, 2, 2),
         intArrayOf(2, 2, 2),
         intArrayOf(2, 2, 2)
@@ -71,7 +71,7 @@ class PlayerVsAI : AppCompatActivity() {
         button.isClickable = false
 
         if(move<=8 && !won){
-            runAiPlayer();
+            //runAiPlayer();
         }
 
 
@@ -198,7 +198,52 @@ class PlayerVsAI : AppCompatActivity() {
         ++move;
     }
 
-    private fun checkWin(st:String, i:Int){
+
+//    private fun miniMax(first: Array<IntArray>, depth: Int, isMaximizing:Boolean): Int {
+//        //checkWin()
+//        if(!won){
+//            return -1
+//        }
+//        if(won){
+//            return 1
+//        }
+//
+//        if(isMaximizing){
+//            var bestScore = -1000
+//            for(i in 0..2){
+//                for(j in 0..2){
+//                    if(first[i][j] == 2){
+//                        first[i][j] = 0
+//                        var score = miniMax(first,depth+1,false)
+//                        first[i][j] = 2
+//                        bestScore = maxOf(score,bestScore)
+//                    }
+//                }
+//            }
+//            return bestScore
+//        }
+//        else{
+//            var bestScore = 1000
+//            for(i in 0..2){
+//                for(j in 0..2){
+//                    if(first[i][j] == 2){
+//                        first[i][j] = 1
+//                        var score = miniMax(first,depth+1,true)
+//                        first[i][j] = 2
+//                        bestScore = minOf(score,bestScore)
+//                    }
+//                }
+//            }
+//            return bestScore
+//        }
+//
+//    }
+
+
+
+
+
+    fun checkWin(st:String, i:Int){
         when (st) {
             "00"-> {
                 first[0][0] = i
@@ -340,9 +385,8 @@ class PlayerVsAI : AppCompatActivity() {
         }
 
 
-
     }
-    private fun onWin(player:Int){
+    fun onWin(player:Int){
         if(player == 1){
             playerWins.text = "Player $player Wins"
         }

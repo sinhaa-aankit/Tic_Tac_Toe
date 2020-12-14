@@ -23,7 +23,7 @@ class ChoosePlayerActivity : AppCompatActivity() {
 
         })
         pvc.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, PlayerVsAI::class.java)
+            val intent = Intent(this, TicTacToeAi::class.java)
             startActivity(intent)
         })
     }
