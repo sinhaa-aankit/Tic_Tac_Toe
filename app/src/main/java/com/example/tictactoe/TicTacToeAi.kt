@@ -91,12 +91,14 @@ class TicTacToeAi : AppCompatActivity() {
     private fun bestMove() {
         // AI to make its turn
         var bestScore = Int.MIN_VALUE
+//        var alpha = Int.MIN_VALUE + 1
+//        var beta = Int.MAX_VALUE - 1
         for (i in 0..2) {
             for (j in 0..2) {
             // Is the spot available?
             if (board[i][j] == "") {
                 board[i][j] = ai;
-                var score = minimax(board, 0, false);
+                var score = minimax(board, 0, false, Int.MAX_VALUE, Int.MIN_VALUE);
                 board[i][j] = "";
                 if (score > bestScore) {
                     bestScore = score;
@@ -117,15 +119,18 @@ class TicTacToeAi : AppCompatActivity() {
         currentPlayer = human;
     }
 
-    private fun minimax(board:Array<Array<String>>, depth:Int, isMaximizing:Boolean):Int {
+    private fun minimax(board:Array<Array<String>>, depth:Int, isMaximizing:Boolean, alpha:Int, beta:Int):Int {
         var result = checkWinner();
         if (result != "null") {
             return if(result == "0"){
-                -1
+                -1000
             } else{
-                1
+                10 - depth
             }
         }
+
+        var alphaOne = alpha
+        var betaOne = beta
 
         if (isMaximizing) {
             var bestScore = Int.MIN_VALUE;
@@ -134,9 +139,12 @@ class TicTacToeAi : AppCompatActivity() {
                 // Is the spot available?
                 if (board[i][j] == "") {
                     board[i][j] = ai;
-                    var score = minimax(board, depth + 1, false)
+                    var score = minimax(board, depth + 1, false, alpha, beta)
                     board[i][j] = ""
                     bestScore = maxOf(score, bestScore)
+                    alphaOne = maxOf(alphaOne, bestScore)
+                    if(betaOne <= alphaOne) break
+
                 }
             }
             }
@@ -148,9 +156,11 @@ class TicTacToeAi : AppCompatActivity() {
                 // Is the spot available?
                 if (board[i][j] == "") {
                     board[i][j] = human;
-                    var score = minimax(board, depth + 1, true);
+                    var score = minimax(board, depth + 1, true, alpha, beta);
                     board[i][j] = ""
                     bestScore = minOf(score, bestScore);
+                    betaOne = minOf(betaOne, bestScore)
+                    if(betaOne <= alphaOne) break
                 }
             }
             }
@@ -286,6 +296,10 @@ class TicTacToeAi : AppCompatActivity() {
             }
         }
 
+//        if(winner != "null" && openSpots != 0){
+//            colorButtons();
+//        }
+
         return if(winner == "null" && openSpots == 0) {
             "TIE";
         } else {
@@ -293,16 +307,91 @@ class TicTacToeAi : AppCompatActivity() {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
+//    private fun colorButtons() {
+//        if(board[0][0] == ai && board[0][1]  == ai && board[0][2] == ai){
+//            b1.setBackgroundColor(Color.RED)
+//            b2.setBackgroundColor(Color.RED)
+//            b3.setBackgroundColor(Color.RED)
+//        }
+//        if(board[1][0] == ai && board[1][1]  == ai && board[1][2] == ai){
+//            b4.setBackgroundColor(Color.RED)
+//            b5.setBackgroundColor(Color.RED)
+//            b6.setBackgroundColor(Color.RED)
+//        }
+//        if(board[2][0] == ai && board[2][1]  == ai && board[2][2] == ai){
+//            b7.setBackgroundColor(Color.RED)
+//            b8.setBackgroundColor(Color.RED)
+//            b9.setBackgroundColor(Color.RED)
+//        }
+//        if(board[0][0] == ai && board[1][0]  == ai && board[2][0] == ai){
+//            b1.setBackgroundColor(Color.RED)
+//            b4.setBackgroundColor(Color.RED)
+//            b7.setBackgroundColor(Color.RED)
+//        }
+//        if(board[0][1] == ai && board[1][1]  == ai && board[2][1] == ai){
+//            b2.setBackgroundColor(Color.RED)
+//            b5.setBackgroundColor(Color.RED)
+//            b8.setBackgroundColor(Color.RED)
+//        }
+//        if(board[0][2] == ai && board[1][2]  == ai && board[2][2] == ai){
+//            b3.setBackgroundColor(Color.RED)
+//            b6.setBackgroundColor(Color.RED)
+//            b9.setBackgroundColor(Color.RED)
+//        }
+//        if(board[0][0] == ai && board[1][1]  == ai && board[2][2] == ai){
+//            b1.setBackgroundColor(Color.RED)
+//            b5.setBackgroundColor(Color.RED)
+//            b9.setBackgroundColor(Color.RED)
+//        }
+//        if(board[2][0] == ai && board[1][1]  == ai && board[0][2] == ai){
+//            b3.setBackgroundColor(Color.RED)
+//            b5.setBackgroundColor(Color.RED)
+//            b7.setBackgroundColor(Color.RED)
+//        }
+//
+//
+//
+//        if(board[0][0] == human && board[0][1]  == human && board[0][2] == human){
+//            b1.setBackgroundColor(Color.RED)
+//            b2.setBackgroundColor(Color.RED)
+//            b3.setBackgroundColor(Color.RED)
+//        }
+//        if(board[1][0] == human && board[1][1]  == human && board[1][2] == human){
+//            b4.setBackgroundColor(Color.RED)
+//            b5.setBackgroundColor(Color.RED)
+//            b6.setBackgroundColor(Color.RED)
+//        }
+//        if(board[2][0] == human && board[2][1]  == human && board[2][2] == human){
+//            b7.setBackgroundColor(Color.RED)
+//            b8.setBackgroundColor(Color.RED)
+//            b9.setBackgroundColor(Color.RED)
+//        }
+//        if(board[0][0] == human && board[1][0]  == human && board[2][0] == human){
+//            b1.setBackgroundColor(Color.RED)
+//            b4.setBackgroundColor(Color.RED)
+//            b7.setBackgroundColor(Color.RED)
+//        }
+//        if(board[0][1] == human && board[1][1]  == human && board[2][1] == human){
+//            b2.setBackgroundColor(Color.RED)
+//            b5.setBackgroundColor(Color.RED)
+//            b8.setBackgroundColor(Color.RED)
+//        }
+//        if(board[0][2] == human && board[1][2]  == human && board[2][2] == human){
+//            b3.setBackgroundColor(Color.RED)
+//            b6.setBackgroundColor(Color.RED)
+//            b9.setBackgroundColor(Color.RED)
+//        }
+//        if(board[0][0] == human && board[1][1]  == human && board[2][2] == human){
+//            b1.setBackgroundColor(Color.RED)
+//            b5.setBackgroundColor(Color.RED)
+//            b9.setBackgroundColor(Color.RED)
+//        }
+//        if(board[2][0] == human && board[1][1]  == human && board[0][2] == human){
+//            b3.setBackgroundColor(Color.RED)
+//            b5.setBackgroundColor(Color.RED)
+//            b7.setBackgroundColor(Color.RED)
+//        }
+//    }
 
 
     private fun equals3(a:String, b:String, c:String):Boolean {
