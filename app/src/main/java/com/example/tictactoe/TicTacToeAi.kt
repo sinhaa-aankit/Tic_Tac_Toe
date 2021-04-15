@@ -142,8 +142,8 @@ class TicTacToeAi : AppCompatActivity() {
                     var score = minimax(board, depth + 1, false, alpha, beta)
                     board[i][j] = ""
                     bestScore = maxOf(score, bestScore)
-                    alphaOne = maxOf(alphaOne, bestScore)
-                    if(betaOne <= alphaOne) break
+//                    alphaOne = maxOf(alphaOne, bestScore)
+//                    if(betaOne <= alphaOne) break
 
                 }
             }
@@ -159,8 +159,8 @@ class TicTacToeAi : AppCompatActivity() {
                     var score = minimax(board, depth + 1, true, alpha, beta);
                     board[i][j] = ""
                     bestScore = minOf(score, bestScore);
-                    betaOne = minOf(betaOne, bestScore)
-                    if(betaOne <= alphaOne) break
+//                    betaOne = minOf(betaOne, bestScore)
+//                    if(betaOne <= alphaOne) break
                 }
             }
             }
