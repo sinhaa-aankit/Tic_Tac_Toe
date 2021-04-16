@@ -125,7 +125,7 @@ class TicTacToeAi : AppCompatActivity() {
             return if(result == "0"){
                 -1000
             } else{
-                10 - depth
+                1000 - depth
             }
         }
 
