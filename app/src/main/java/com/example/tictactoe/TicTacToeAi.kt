@@ -136,33 +136,33 @@ class TicTacToeAi : AppCompatActivity() {
             var bestScore = Int.MIN_VALUE;
             for (i in 0..2) {
                 for (j in 0..2) {
-                // Is the spot available?
-                if (board[i][j] == "") {
-                    board[i][j] = ai;
-                    var score = minimax(board, depth + 1, false, alpha, beta)
-                    board[i][j] = ""
-                    bestScore = maxOf(score, bestScore)
-//                    alphaOne = maxOf(alphaOne, bestScore)
-//                    if(betaOne <= alphaOne) break
+                    // Is the spot available?
+                    if (board[i][j] == "") {
+                        board[i][j] = ai
+                        var score = minimax(board, depth + 1, false, alphaOne, betaOne)
+                        board[i][j] = ""
+                        bestScore = maxOf(score, bestScore)
+                        alphaOne = maxOf(alphaOne, bestScore)
+                        if(betaOne >= alphaOne) break
 
+                    }
                 }
-            }
             }
             return bestScore;
         } else {
             var bestScore = Int.MAX_VALUE;
             for (i in 0..2) {
                 for (j in 0..2) {
-                // Is the spot available?
-                if (board[i][j] == "") {
-                    board[i][j] = human;
-                    var score = minimax(board, depth + 1, true, alpha, beta);
-                    board[i][j] = ""
-                    bestScore = minOf(score, bestScore);
-//                    betaOne = minOf(betaOne, bestScore)
-//                    if(betaOne <= alphaOne) break
+                    // Is the spot available?
+                    if (board[i][j] == "") {
+                        board[i][j] = human;
+                        var score = minimax(board, depth + 1, true, alphaOne, betaOne)
+                        board[i][j] = ""
+                        bestScore = minOf(score, bestScore)
+                        betaOne = minOf(betaOne, bestScore)
+                        if(betaOne >= alphaOne) break
+                    }
                 }
-            }
             }
             return bestScore;
         }
