@@ -123,7 +123,7 @@ class TicTacToeAi : AppCompatActivity() {
         var result = checkWinner();
         if (result != "null") {
             return if(result == "0"){
-                -1000
+                -1000 + depth
             } else{
                 1000 - depth
             }
